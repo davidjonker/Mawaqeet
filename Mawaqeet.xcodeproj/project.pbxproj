@@ -1,0 +1,293 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BF63C1D01CFEBE2200E1DB51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63C1CF1CFEBE2200E1DB51 /* AppDelegate.swift */; };
+		BF63C1D21CFEBE2200E1DB51 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63C1D11CFEBE2200E1DB51 /* ViewController.swift */; };
+		BF63C1D51CFEBE2200E1DB51 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF63C1D31CFEBE2200E1DB51 /* Main.storyboard */; };
+		BF63C1D71CFEBE2200E1DB51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF63C1D61CFEBE2200E1DB51 /* Assets.xcassets */; };
+		BF63C1DA1CFEBE2200E1DB51 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF63C1D81CFEBE2200E1DB51 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BF63C1CC1CFEBE2100E1DB51 /* Mawaqeet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mawaqeet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF63C1CF1CFEBE2200E1DB51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BF63C1D11CFEBE2200E1DB51 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BF63C1D41CFEBE2200E1DB51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BF63C1D61CFEBE2200E1DB51 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BF63C1D91CFEBE2200E1DB51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BF63C1DB1CFEBE2200E1DB51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BF63C1C91CFEBE2100E1DB51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BF63C1C31CFEBE2100E1DB51 = {
+			isa = PBXGroup;
+			children = (
+				BF63C1CE1CFEBE2200E1DB51 /* Mawaqeet */,
+				BF63C1CD1CFEBE2100E1DB51 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BF63C1CD1CFEBE2100E1DB51 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BF63C1CC1CFEBE2100E1DB51 /* Mawaqeet.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BF63C1CE1CFEBE2200E1DB51 /* Mawaqeet */ = {
+			isa = PBXGroup;
+			children = (
+				BF63C1CF1CFEBE2200E1DB51 /* AppDelegate.swift */,
+				BF63C1D11CFEBE2200E1DB51 /* ViewController.swift */,
+				BF63C1D31CFEBE2200E1DB51 /* Main.storyboard */,
+				BF63C1D61CFEBE2200E1DB51 /* Assets.xcassets */,
+				BF63C1D81CFEBE2200E1DB51 /* LaunchScreen.storyboard */,
+				BF63C1DB1CFEBE2200E1DB51 /* Info.plist */,
+			);
+			path = Mawaqeet;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BF63C1CB1CFEBE2100E1DB51 /* Mawaqeet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF63C1DE1CFEBE2200E1DB51 /* Build configuration list for PBXNativeTarget "Mawaqeet" */;
+			buildPhases = (
+				BF63C1C81CFEBE2100E1DB51 /* Sources */,
+				BF63C1C91CFEBE2100E1DB51 /* Frameworks */,
+				BF63C1CA1CFEBE2100E1DB51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Mawaqeet;
+			productName = Mawaqeet;
+			productReference = BF63C1CC1CFEBE2100E1DB51 /* Mawaqeet.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BF63C1C41CFEBE2100E1DB51 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = super;
+				TargetAttributes = {
+					BF63C1CB1CFEBE2100E1DB51 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = BF63C1C71CFEBE2100E1DB51 /* Build configuration list for PBXProject "Mawaqeet" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BF63C1C31CFEBE2100E1DB51;
+			productRefGroup = BF63C1CD1CFEBE2100E1DB51 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BF63C1CB1CFEBE2100E1DB51 /* Mawaqeet */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BF63C1CA1CFEBE2100E1DB51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF63C1DA1CFEBE2200E1DB51 /* LaunchScreen.storyboard in Resources */,
+				BF63C1D71CFEBE2200E1DB51 /* Assets.xcassets in Resources */,
+				BF63C1D51CFEBE2200E1DB51 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BF63C1C81CFEBE2100E1DB51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF63C1D21CFEBE2200E1DB51 /* ViewController.swift in Sources */,
+				BF63C1D01CFEBE2200E1DB51 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BF63C1D31CFEBE2200E1DB51 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF63C1D41CFEBE2200E1DB51 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BF63C1D81CFEBE2200E1DB51 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF63C1D91CFEBE2200E1DB51 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BF63C1DC1CFEBE2200E1DB51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BF63C1DD1CFEBE2200E1DB51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BF63C1DF1CFEBE2200E1DB51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Mawaqeet/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mawaqeet.Mawaqeet.Mawaqeet;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BF63C1E01CFEBE2200E1DB51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Mawaqeet/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mawaqeet.Mawaqeet.Mawaqeet;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BF63C1C71CFEBE2100E1DB51 /* Build configuration list for PBXProject "Mawaqeet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF63C1DC1CFEBE2200E1DB51 /* Debug */,
+				BF63C1DD1CFEBE2200E1DB51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF63C1DE1CFEBE2200E1DB51 /* Build configuration list for PBXNativeTarget "Mawaqeet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF63C1DF1CFEBE2200E1DB51 /* Debug */,
+				BF63C1E01CFEBE2200E1DB51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BF63C1C41CFEBE2100E1DB51 /* Project object */;
+}
