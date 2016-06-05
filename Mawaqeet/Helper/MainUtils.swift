@@ -94,6 +94,22 @@ extension MainViewController {
         self.sunRiseTimeLabel.text = (sunRiseTime?.dateToString())!.uppercaseString
         self.sunSetTimeLabel.text = (sunSetTime?.dateToString())!.uppercaseString
     }
+    
+    // Set Default Status for switch.
+    
+    func setDefaultSwitchStatus() {
+        defaults.setValue(true, forKey: "FAJR")
+        defaults.setValue(true, forKey: "DHUHR")
+        defaults.setValue(true, forKey: "ASR")
+        defaults.setValue(true, forKey: "MAGHRIB")
+        defaults.setValue(true, forKey: "ISHA")
+        defaults.setValue(false, forKey: "beforeFAJR")
+        defaults.setValue(false, forKey: "beforeDHUHR")
+        defaults.setValue(false, forKey: "beforeASR")
+        defaults.setValue(false, forKey: "beforeMAGHRIB")
+        defaults.setValue(false, forKey: "beforeISHA")
+    }
+    
    
 }
 

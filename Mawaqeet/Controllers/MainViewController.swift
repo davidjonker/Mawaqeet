@@ -39,21 +39,25 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var nextPrayerTime:NSDate = NSDate()
     var currentPrayerTime:NSDate = NSDate()
     var nextPrayerName = ""
+    var storeClosedLeftXPos:CGFloat = 0.0
+    var storeClosedRightXPos:CGFloat = 0.0
     
     @IBOutlet weak var contactBtn: UIButton!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var aboutMainView: UIScrollView!
+    @IBOutlet weak var settingsView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var prayerTimeTableView: UITableView!
     @IBOutlet weak var weekDayLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var nextPrayerView: UIView!
+    @IBOutlet weak var nextPrayerLabel: UILabel!
     @IBOutlet weak var nextPrayerNameLabel: UILabel!
     @IBOutlet weak var nextPrayerCountTimeLabel: UILabel!
     @IBOutlet weak var sunRiseView: UIView!
     @IBOutlet weak var sunRiseTimeLabel: UILabel!
-    @IBOutlet weak var	 sunSetView: UIView!
+    @IBOutlet weak var sunSetView: UIView!
     @IBOutlet weak var sunSetTimeLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var countryLabel: UILabel!
@@ -63,13 +67,23 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var sunView: UIView!
     @IBOutlet weak var storeRemainingTime: UILabel!
     @IBOutlet weak var storeClosedPrayerLabel: UILabel!
+    @IBOutlet weak var storeLeftLabel: UILabel!
+    @IBOutlet weak var storeRightLabel: UILabel!
+    @IBOutlet var switchCollection: [UISwitch]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let firstTimeLogin = defaults.boolForKey("firstTimeLogin")
+        if !firstTimeLogin {
+            defaults.setValue(true, forKey: "firstTimeLogin")
+            setDefaultSwitchStatus()
+        }
+        
+        self.setSwitchSize()
+        
         self.aboutMainView.contentSize = CGSizeMake(self.view.frame.size.width, self.contactBtn.frame.origin.y + self.contactBtn.frame.size.height)
         self.isInSaudiArabia = false
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.appDidEnterBackground), name: "appDidEnterBackground", object: nil)
         
         // Set Weekday and Date Label.
@@ -85,58 +99,12 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.startApp()
         
     }
-
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
-    }
     
-    func toggleFromDayToNight() {
-        day = !day
-        
-        if day {
-            self.gradient!.colors = [dayTopColor.CGColor, dayBottomColor.CGColor]
-            toColors = [dayToTopColor.CGColor, dayToBottomColor.CGColor]
-        } else {
-            self.gradient!.colors = [nightTopColor.CGColor, nightBottomColor.CGColor]
-            toColors = [nightToTopColor.CGColor, nightToBottomColor.CGColor]
-        }
-        
-        gradient!.removeAnimationForKey("animateGradient")                      // cancel the animation
-        animateLayer()                                                          // start animation
-    }
-    
-    func animateLayer(){
-        
-        self.fromColors = self.gradient!.colors!
-        self.gradient!.colors = self.toColors as? [AnyObject]
-        let animation : CABasicAnimation = CABasicAnimation(keyPath: "colors")
-        animation.delegate = self
-        animation.fromValue = fromColors
-        animation.toValue = toColors
-        animation.duration = 3.0
-        animation.removedOnCompletion = true
-        animation.fillMode = kCAFillModeForwards
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-        animation.delegate = self
-        
-        self.gradient!.addAnimation(animation, forKey:"animateGradient")
-    }
-    
-    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        
-        if flag {
-//            swap(&toColors, &fromColors)
-            toColors = fromColors;
-            fromColors = gradient!.colors!
-            animateLayer()
-        }
-    }
-
-    func appDidEnterBackground() {
-        exit(0)
-    }
-    
+    // Start App
     func startApp(){
+        
+        self.storeClosedLeftXPos = self.storeLeftLabel.frame.origin.x
+        self.storeClosedRightXPos = self.storeRightLabel.frame.origin.x
         // Check Internet Connection
         let status = Reach().connectionStatus()
         switch status {
@@ -174,6 +142,16 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             break
         }
     }
+    
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
+    func appDidEnterBackground() {
+        exit(0)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -220,6 +198,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 }
                 else{
                     self.nextPrayerName = "FAJR"
+                    self.nextPrayerTime = prayerTime
                 }
                 cell.prayerDuration.text = prayerTime.durationUntilNextPrayer(prayerNextTime)
                 cell.isPrayerFinishedLine.tag = 2000
@@ -275,6 +254,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 if !isPassed {
                     self.nextPrayerName = "Midnight"
                 }
+                cell.prayerDuration.hidden = true
                 cell.isPrayerFinishedLine.tag = 2004
                 
             default:
@@ -288,15 +268,18 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (indexPath.row == 4 && self.datePrayerTimes.count != 0) {
             let date = NSDate()
             for prayertime in self.datePrayerTimes {
-                if let currentPrayerTime = prayertime.1 as? NSDate {
-                    if date.isGreaterThanDate(currentPrayerTime) {
-                        self.storeClosedPrayerText = prayertime.0.toString().uppercaseString
-                    }
-                    let prayerOpenTime = currentPrayerTime.dateByAddingTimeInterval(35.0*60.0)
-                    if date.isGreaterThanDate(currentPrayerTime) && date.isLessThanDate(prayerOpenTime) {
-                        currentPrayerStoreTime = currentPrayerTime
-                        self.storeFlag = true
-                        break
+                print(prayertime)
+                if prayertime.0.toString().uppercaseString != "SUNSET" && prayertime.0.toString().uppercaseString != "SUNRISE" {
+                    if let currentPrayerTime = prayertime.1 as? NSDate {
+                        if date.isGreaterThanDate(currentPrayerTime) {
+                            self.storeClosedPrayerText = prayertime.0.toString().uppercaseString
+                        }
+                        let prayerOpenTime = currentPrayerTime.dateByAddingTimeInterval(35.0*60.0)
+                        if date.isGreaterThanDate(currentPrayerTime) && date.isLessThanDate(prayerOpenTime) {
+                            currentPrayerStoreTime = currentPrayerTime
+                            self.storeFlag = true
+                            break
+                        }
                     }
                 }
             }
@@ -306,14 +289,16 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             animateBackground()
             if self.nextPrayerName == "Midnight"{
-                self.nextPrayerNameLabel.font = UIFont(name: (self.nextPrayerNameLabel?.font.fontName)!, size: 28)
+                self.nextPrayerNameLabel.font = UIFont(name: (self.nextPrayerNameLabel?.font.fontName)!, size: 32)
                 self.nextPrayerCountTimeLabel.font = UIFont(name: (self.nextPrayerCountTimeLabel?.font.fontName)!, size: 20)
+                self.nextPrayerLabel.hidden = true
                 self.nextPrayerNameLabel.text = "God Bless"
                 self.nextPrayerCountTimeLabel.text = "Timers restart at midnight"
             }
             else{
                 self.nextPrayerNameLabel.font = UIFont(name: (self.nextPrayerNameLabel?.font.fontName)!, size: 37)
                 self.nextPrayerCountTimeLabel.font = UIFont(name: (self.nextPrayerCountTimeLabel?.font.fontName)!, size: 37)
+                self.nextPrayerLabel.hidden = false
                 setNextPrayerTimeLabel()
             }
             self.prayerTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(MainViewController.nextPrayerTimerFunction), userInfo: nil, repeats: true)
@@ -321,10 +306,47 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
-    func setNextPrayerTimeLabel() {
-        self.nextPrayerNameLabel.text = self.nextPrayerName
+    func toggleFromDayToNight() {
+        day = !day
+        
+        if day {
+            self.gradient!.colors = [dayTopColor.CGColor, dayBottomColor.CGColor]
+            toColors = [dayToTopColor.CGColor, dayToBottomColor.CGColor]
+        } else {
+            self.gradient!.colors = [nightTopColor.CGColor, nightBottomColor.CGColor]
+            toColors = [nightToTopColor.CGColor, nightToBottomColor.CGColor]
+        }
+        
+        gradient!.removeAnimationForKey("animateGradient")                      // cancel the animation
+        animateLayer()                                                          // start animation
     }
     
+    func animateLayer(){
+        
+        self.fromColors = self.gradient!.colors!
+        self.gradient!.colors = self.toColors as? [AnyObject]
+        let animation : CABasicAnimation = CABasicAnimation(keyPath: "colors")
+        animation.delegate = self
+        animation.fromValue = fromColors
+        animation.toValue = toColors
+        animation.duration = 3.5
+        animation.removedOnCompletion = true
+        animation.fillMode = kCAFillModeForwards
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.delegate = self
+        
+        self.gradient!.addAnimation(animation, forKey:"animateGradient")
+    }
+    
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        
+        if flag {
+            toColors = fromColors;
+            fromColors = gradient!.colors!
+            animateLayer()
+        }
+    }
+
     func animateBackground() {
         let currentTime = NSDate()
         
@@ -353,12 +375,33 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         animateLayer()
     }
     
+    
+    func setNextPrayerTimeLabel() {
+        self.nextPrayerNameLabel.text = self.nextPrayerName
+    }
+    
     func stopTimer(timer: NSTimer){
         timer.invalidate()
     }
     
     func showStoreTime() {
         print(self.storeClosedPrayerText)
+        if self.storeClosedPrayerText == "FAJR" || self.storeClosedPrayerText == "ISHA" {
+            self.storeLeftLabel.frame.origin.x = self.storeClosedLeftXPos + 15
+            self.storeRightLabel.frame.origin.x = self.storeClosedRightXPos - 15
+        }
+        if self.storeClosedPrayerText == "ASR" {
+            self.storeLeftLabel.frame.origin.x = self.storeClosedLeftXPos + 18
+            self.storeRightLabel.frame.origin.x = self.storeClosedRightXPos - 18
+        }
+        if self.storeClosedPrayerText == "MAGHRIB" {
+            self.storeLeftLabel.frame.origin.x = self.storeClosedLeftXPos - 5
+            self.storeRightLabel.frame.origin.x = self.storeClosedRightXPos + 5
+        }
+        if self.storeClosedPrayerText == "DHUHR" {
+            self.storeLeftLabel.frame.origin.x = self.storeClosedLeftXPos + 5
+            self.storeRightLabel.frame.origin.x = storeClosedRightXPos - 5
+        }
         self.storeClosedPrayerLabel.text = self.storeClosedPrayerText
         self.storeOpenTime = currentPrayerStoreTime.dateByAddingTimeInterval(35.0 * 60.0)
         self.sunView.alpha = 1.0
@@ -383,6 +426,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                             self.storeCloseView.alpha = 0.0
                             }, completion: {(finished: Bool) -> Void in
                                 self.storeCloseView.hidden = true
+                                self.storeLeftLabel.frame.origin.x = self.storeClosedLeftXPos
+                                self.storeRightLabel.frame.origin.x = self.storeClosedRightXPos
                         })
                 });
                 
@@ -451,7 +496,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     let finishedLine = self.view.viewWithTag(2004)
                     finishedLine?.hidden = false
                     self.nextPrayerName = "Midnight"
-                    self.nextPrayerNameLabel.font = UIFont(name: (self.nextPrayerNameLabel?.font.fontName)!, size: 28)
+                    self.nextPrayerNameLabel.font = UIFont(name: (self.nextPrayerNameLabel?.font.fontName)!, size: 32)
+                    self.nextPrayerLabel.hidden = true
                     self.nextPrayerCountTimeLabel.font = UIFont(name: (self.nextPrayerCountTimeLabel?.font.fontName)!, size: 20)
                     self.nextPrayerNameLabel.text = "God Bless"
                     self.nextPrayerCountTimeLabel.text = "Timers restart at midnight"
@@ -508,7 +554,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         prayerKit.outputFormat = .Time12
         prayerKit.outputFormat = .Date
         datePrayerTimes = prayerKit.getPrayerTimes()!
-        
         // Set sun rise and sun set text
         setSunRiseAndSet()
         registerNotification()
@@ -533,12 +578,63 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func registerPrayerNotification() {
-        LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("FAJR", title: "Prayer Time", message: "It's FAJR Prayer Time", date: self.datePrayerTimes[.Fajr] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
-        LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("DHUHR", title: "Prayer Time", message: "It's DHUHR Prayer Time", date: self.datePrayerTimes[.Dhuhr] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
-        LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("ASR", title: "Prayer Time", message: "It's ASR Prayer Time", date: self.datePrayerTimes[.Asr] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
-        LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("MAGHRIB", title: "Prayer Time", message: "It's MAGHRIB Prayer Time", date: self.datePrayerTimes[.Maghrib] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
-        LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("ISHA", title: "Prayer Time", message: "It's ISHA Prayer Time", date: self.datePrayerTimes[.Isha] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
-//        for prayerTime in self.datePrayerTimes {
+        LocalNotificationHelper.sharedInstance().cancelAllNotifications()
+        let FAJR = defaults.boolForKey("FAJR")
+        let DHUHR = defaults.boolForKey("DHUHR")
+        let ASR = defaults.boolForKey("ASR")
+        let MAGHRIB = defaults.boolForKey("MAGHRIB")
+        let ISHA = defaults.boolForKey("ISHA")
+        let beforeFAJR = defaults.boolForKey("beforeFAJR")
+        let beforeDHUHR = defaults.boolForKey("beforeDHUHR")
+        let beforeASR = defaults.boolForKey("beforeASR")
+        let beforeMAGHRIB = defaults.boolForKey("beforeMAGHRIB")
+        let beforeISHA = defaults.boolForKey("beforeISHA")
+        if FAJR {
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("FAJR", title: "Slide to View", message: "It's FAJR Prayer Time", date: self.datePrayerTimes[.Fajr] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+        }
+        if DHUHR {            
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("DHUHR", title: "Slide to View", message: "It's DHUHR Prayer Time", date: self.datePrayerTimes[.Dhuhr] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+        }
+        if ASR {
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("ASR", title: "Slide to View", message: "It's ASR Prayer Time", date: self.datePrayerTimes[.Asr] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+        }
+        if MAGHRIB {
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("MAGHRIB", title: "Slide to View", message: "It's MAGHRIB Prayer Time", date: self.datePrayerTimes[.Maghrib] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+        }
+        if ISHA {
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("ISHA", title: "Slide to View", message: "It's ISHA Prayer Time", date: self.datePrayerTimes[.Isha] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+        }
+        if beforeFAJR{
+            let pTime = self.datePrayerTimes[.Fajr] as! NSDate!
+            let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeFAJR", title: "Slide to View", message: "15 mins left until FAJR Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+            defaults.setValue(true, forKey: "beforeFAJR")
+        }
+        if beforeDHUHR{
+            let pTime = self.datePrayerTimes[.Dhuhr] as! NSDate!
+            let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeDHUHR", title: "Slide to View", message: "15 mins left until DHUHR Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+            defaults.setValue(true, forKey: "beforeDHUHR")
+        }
+        if beforeASR{
+            let pTime = self.datePrayerTimes[.Asr] as! NSDate!
+            let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeASR", title: "Slide to View", message: "15 mins left until ASR Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+            defaults.setValue(true, forKey: "beforeASR")
+        }
+        if beforeMAGHRIB{
+            let pTime = self.datePrayerTimes[.Maghrib] as! NSDate!
+            let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeMAGHRIB", title: "Slide to View", message: "15 mins left until MAGHRIB Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+            defaults.setValue(true, forKey: "beforeMAGHRIB")
+        }
+        if beforeISHA{
+            let pTime = self.datePrayerTimes[.Isha] as! NSDate!
+            let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeISHA", title: "Slide to View", message: "15 mins left until ISHA Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+            defaults.setValue(true, forKey: "beforeISHA")
+        }
+//          for prayerTime in self.datePrayerTimes {
 //            let pTime = prayerTime.1 as? NSDate
 //            LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey(prayerTime.0.toString(), title: "Prayer Time.", message: "It's " + prayerTime.0.toString() + " Time.", date: pTime!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
 //        }
@@ -571,6 +667,39 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func settingsBtnTapped(sender: UIButton) {
+        self.setSavedSwitchStatus()
+        let blurEffectView = UIVisualEffectView()
+        blurEffectView.frame = self.mainView.bounds
+        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight] // for supporting device rotation
+        self.mainView.addSubview(blurEffectView)
+        self.settingsView.hidden = false
+        UIView.animateWithDuration(1, animations: {() -> Void in
+            blurEffectView.effect = UIBlurEffect(style: .Dark)
+//            self.mainView.addSubview(blurEffectView)
+        })
+    }
+    
+    @IBAction func closeSettingsBtnTapped(sender: UIButton) {
+        let blurEffectView = UIVisualEffectView()
+        blurEffectView.frame = self.mainView.bounds
+        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight] // for supporting device rotation
+        self.mainView.alpha = 0.0
+        self.mainView.addSubview(blurEffectView)
+        UIView.animateWithDuration(1, animations: {() -> Void in
+            
+            for subview in self.mainView.subviews {
+                if subview is UIVisualEffectView {
+                    subview.removeFromSuperview()
+                }
+            }
+            
+            self.mainView.alpha = 1.0
+            self.settingsView.alpha = 0
+            
+            }, completion: {(finished: Bool) -> Void in
+                self.settingsView.alpha = 1
+                self.settingsView.hidden = true
+        })
     }
     
     @IBAction func aboutBtnTapped(sender: UIButton) {
@@ -589,15 +718,18 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let blurEffectView = UIVisualEffectView()
         blurEffectView.frame = self.mainView.bounds
         blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight] // for supporting device rotation
+        self.mainView.alpha = 0.0
         self.mainView.addSubview(blurEffectView)
         UIView.animateWithDuration(1, animations: {() -> Void in
-            self.aboutMainView.alpha = 0
-            }, completion: {(finished: Bool) -> Void in
-                for subview in self.mainView.subviews {
-                    if subview is UIVisualEffectView {
-                        subview.removeFromSuperview()
-                    }
+            
+            for subview in self.mainView.subviews {
+                if subview is UIVisualEffectView {
+                    subview.removeFromSuperview()
                 }
+            }
+            self.aboutMainView.alpha = 0
+            self.mainView.alpha = 1.0
+            }, completion: {(finished: Bool) -> Void in
                 self.aboutMainView.alpha = 1
                 self.aboutMainView.hidden = true
         })
@@ -610,6 +742,215 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             if (UIApplication.sharedApplication().openURL(tirerackUrl)){
                 print("successfully opened")
             }
+        }
+    }
+    
+    
+    func setSwitchSize() {
+        for mySwitch in self.switchCollection {
+            mySwitch.transform = CGAffineTransformMakeScale(0.6, 0.6)
+        }
+    }
+    
+    // Set status for saved switch
+    func setSavedSwitchStatus() {
+        let FAJR = defaults.boolForKey("FAJR")
+        let DHUHR = defaults.boolForKey("DHUHR")
+        let ASR = defaults.boolForKey("ASR")
+        let MAGHRIB = defaults.boolForKey("MAGHRIB")
+        let ISHA = defaults.boolForKey("ISHA")
+        let beforeFAJR = defaults.boolForKey("beforeFAJR")
+        let beforeDHUHR = defaults.boolForKey("beforeDHUHR")
+        let beforeASR = defaults.boolForKey("beforeASR")
+        let beforeMAGHRIB = defaults.boolForKey("beforeMAGHRIB")
+        let beforeISHA = defaults.boolForKey("beforeISHA")
+        if beforeFAJR {
+            let uiSwitch = self.view.viewWithTag(3000) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3000) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        if FAJR {
+            let uiSwitch = self.view.viewWithTag(3001) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3001) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        if beforeDHUHR {
+            let uiSwitch = self.view.viewWithTag(3002) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3002) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        if DHUHR {
+            let uiSwitch = self.view.viewWithTag(3003) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3003) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        if beforeASR {
+            let uiSwitch = self.view.viewWithTag(3004) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3004) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        if ASR {
+            let uiSwitch = self.view.viewWithTag(3005) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3005) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        if beforeMAGHRIB {
+            let uiSwitch = self.view.viewWithTag(3006) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3006) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        if MAGHRIB {
+            let uiSwitch = self.view.viewWithTag(3007) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3007) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        if beforeISHA {
+            let uiSwitch = self.view.viewWithTag(3008) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3008) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        if ISHA {
+            let uiSwitch = self.view.viewWithTag(3009) as! UISwitch!
+            uiSwitch.setOn(true, animated: false)
+        }
+        else {
+            let uiSwitch = self.view.viewWithTag(3009) as! UISwitch!
+            uiSwitch.setOn(false, animated: false)
+        }
+        
+    }
+    
+    @IBAction func didChangeSwitchStatus(sender: UISwitch) {
+        switch(sender.tag) {
+        case 3000:
+            if sender.on {
+                let pTime = self.datePrayerTimes[.Fajr] as! NSDate!
+                let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeFAJR", title: "Slide to View", message: "15 mins left until FAJR Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "beforeFAJR")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("beforeFAJR")
+                defaults.setValue(false, forKey: "beforeFAJR")
+            }
+        case 3001:
+            if sender.on {
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("FAJR", title: "Slide to View", message: "It's FAJR Prayer Time", date: self.datePrayerTimes[.Fajr] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "FAJR")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("FAJR")
+                defaults.setValue(false, forKey: "FAJR")
+            }
+        case 3002:
+            if sender.on {
+                let pTime = self.datePrayerTimes[.Dhuhr] as! NSDate!
+                let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeDHUHR", title: "Slide to View", message: "15 mins left until DHUHR Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "beforeDHUHR")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("beforeDHUHR")
+                defaults.setValue(false, forKey: "beforeDHUHR")
+            }
+        case 3003:
+            if sender.on {
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("DHUHR", title: "Slide to View", message: "It's DHUHR Prayer Time", date: self.datePrayerTimes[.Dhuhr] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "DHUHR")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("DHUHR")
+                defaults.setValue(false, forKey: "DHUHR")
+            }
+        case 3004:
+            if sender.on {
+                let pTime = self.datePrayerTimes[.Asr] as! NSDate!
+                let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeASR", title: "Slide to View", message: "15 mins left until ASR Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "beforeASR")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("beforeASR")
+                defaults.setValue(false, forKey: "beforeASR")
+            }
+        case 3005:
+            if sender.on {
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("ASR", title: "Slide to View", message: "It's ASR Prayer Time", date: self.datePrayerTimes[.Asr] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "ASR")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("ASR")
+                defaults.setValue(false, forKey: "ASR")
+            }
+        case 3006:
+            if sender.on {
+                let pTime = self.datePrayerTimes[.Maghrib] as! NSDate!
+                let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeMAGHRIB", title: "Slide to View", message: "15 mins left until MAGHRIB Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "beforeMAGHRIB")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("beforeMAGHRIB")
+                defaults.setValue(false, forKey: "beforeMAGHRIB")
+            }
+        case 3007:
+            if sender.on {
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("MAGHRIB", title: "Slide to View", message: "It's MAGHRIB Prayer Time", date: self.datePrayerTimes[.Maghrib] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "MAGHRIB")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("MAGHRIB")
+                defaults.setValue(false, forKey: "MAGHRIB")
+            }
+        case 3008:
+            if sender.on {
+                let pTime = self.datePrayerTimes[.Isha] as! NSDate!
+                let pBeforeTime = pTime.dateByAddingTimeInterval(-900)
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("beforeISHA", title: "Slide to View", message: "15 mins left until ISHA Prayer Time", date: pBeforeTime, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "beforeISHA")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("beforeISHA")
+                defaults.setValue(false, forKey: "beforeISHA")
+            }
+        case 3009:
+            if sender.on {
+                LocalNotificationHelper.sharedInstance().scheduleNotificationWithKey("ISHA", title: "Slide to View", message: "It's ISHA Prayer Time", date: self.datePrayerTimes[.Isha] as! NSDate!, soundName: UILocalNotificationDefaultSoundName, userInfo: nil)
+                defaults.setValue(true, forKey: "ISHA")
+            }
+            else {
+                LocalNotificationHelper.sharedInstance().cancelNotification("ISHA")
+                defaults.setValue(false, forKey: "ISHA")
+            }
+        default:
+            print("default")
         }
     }
     

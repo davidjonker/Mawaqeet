@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		BF63C1D01CFEBE2200E1DB51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63C1CF1CFEBE2200E1DB51 /* AppDelegate.swift */; };
 		BF63C1D51CFEBE2200E1DB51 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF63C1D31CFEBE2200E1DB51 /* Main.storyboard */; };
-		BF63C1E21CFEBF8300E1DB51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF63C1E11CFEBF8300E1DB51 /* Assets.xcassets */; };
 		BF63C2081CFEBFB500E1DB51 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF63C1EB1CFEBFB400E1DB51 /* Roboto-Light.ttf */; };
 		BF63C2161CFEBFB500E1DB51 /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF63C1F91CFEBFB500E1DB51 /* Raleway-Light.ttf */; };
 		BF63C2171CFEBFB500E1DB51 /* Raleway-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF63C1FA1CFEBFB500E1DB51 /* Raleway-Medium.ttf */; };
@@ -31,6 +30,10 @@
 		BF63C23F1CFECEB900E1DB51 /* MainUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63C23E1CFECEB900E1DB51 /* MainUtils.swift */; };
 		BF63C2411CFEDAF600E1DB51 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63C2401CFEDAF600E1DB51 /* LocationService.swift */; };
 		BF63C2441CFEDBE400E1DB51 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF63C2431CFEDBE400E1DB51 /* CoreLocation.framework */; };
+		BF6DE8661D028802003BB7BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF6DE8651D028802003BB7BA /* Assets.xcassets */; };
+		BF6F3B761D01B4AA00B4B1AD /* Raleway-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF6F3B751D01B49C00B4B1AD /* Raleway-Thin.ttf */; };
+		BF7BAD351D01ABD700894E59 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF7BAD341D01AB9900894E59 /* Roboto-Thin.ttf */; };
+		BFDA14361D01782500E8B7E9 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDA14351D01782500E8B7E9 /* LoadingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,7 +41,6 @@
 		BF63C1CF1CFEBE2200E1DB51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF63C1D41CFEBE2200E1DB51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BF63C1DB1CFEBE2200E1DB51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BF63C1E11CFEBF8300E1DB51 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF63C1EB1CFEBFB400E1DB51 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Light.ttf"; path = "fonts-roboto/Roboto-Light.ttf"; sourceTree = "<group>"; };
 		BF63C1F91CFEBFB500E1DB51 /* Raleway-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Light.ttf"; sourceTree = "<group>"; };
 		BF63C1FA1CFEBFB500E1DB51 /* Raleway-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Medium.ttf"; sourceTree = "<group>"; };
@@ -60,6 +62,10 @@
 		BF63C23E1CFECEB900E1DB51 /* MainUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainUtils.swift; sourceTree = "<group>"; };
 		BF63C2401CFEDAF600E1DB51 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		BF63C2431CFEDBE400E1DB51 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		BF6DE8651D028802003BB7BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BF6F3B751D01B49C00B4B1AD /* Raleway-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Thin.ttf"; path = "Raleway/Raleway-Thin.ttf"; sourceTree = "<group>"; };
+		BF7BAD341D01AB9900894E59 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		BFDA14351D01782500E8B7E9 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingViewController.swift; path = Controllers/LoadingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				BF63C1D31CFEBE2200E1DB51 /* Main.storyboard */,
-				BF63C1E11CFEBF8300E1DB51 /* Assets.xcassets */,
+				BF6DE8651D028802003BB7BA /* Assets.xcassets */,
 				BF63C1E41CFEBFB400E1DB51 /* Font */,
 				BF63C1FD1CFEBFB500E1DB51 /* Icon */,
 			);
@@ -119,8 +125,10 @@
 			isa = PBXGroup;
 			children = (
 				BF63C1F91CFEBFB500E1DB51 /* Raleway-Light.ttf */,
+				BF6F3B751D01B49C00B4B1AD /* Raleway-Thin.ttf */,
 				BF63C1EB1CFEBFB400E1DB51 /* Roboto-Light.ttf */,
 				BF63C1FA1CFEBFB500E1DB51 /* Raleway-Medium.ttf */,
+				BF7BAD341D01AB9900894E59 /* Roboto-Thin.ttf */,
 				BF63C1FB1CFEBFB500E1DB51 /* Roboto-Medium.ttf */,
 			);
 			name = Font;
@@ -153,6 +161,7 @@
 			children = (
 				BF63C2211CFEC07700E1DB51 /* MainViewController.swift */,
 				BF63C2231CFEC35F00E1DB51 /* PrayerTableViewCell.swift */,
+				BFDA14351D01782500E8B7E9 /* LoadingViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -260,10 +269,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF6F3B761D01B4AA00B4B1AD /* Raleway-Thin.ttf in Resources */,
+				BF7BAD351D01ABD700894E59 /* Roboto-Thin.ttf in Resources */,
 				BF63C21D1CFEBFB500E1DB51 /* shiny-sunrise.png in Resources */,
 				BF63C21E1CFEBFB500E1DB51 /* sundown.png in Resources */,
+				BF6DE8661D028802003BB7BA /* Assets.xcassets in Resources */,
 				BF63C2361CFEC56200E1DB51 /* timezones.json in Resources */,
-				BF63C1E21CFEBF8300E1DB51 /* Assets.xcassets in Resources */,
 				BF63C2351CFEC56200E1DB51 /* .gitkeep in Resources */,
 				BF63C1D51CFEBE2200E1DB51 /* Main.storyboard in Resources */,
 				BF63C21C1CFEBFB500E1DB51 /* settings.png in Resources */,
@@ -291,6 +302,7 @@
 				BF63C23F1CFECEB900E1DB51 /* MainUtils.swift in Sources */,
 				BF63C1D01CFEBE2200E1DB51 /* AppDelegate.swift in Sources */,
 				BF63C2381CFEC56200E1DB51 /* Reach.swift in Sources */,
+				BFDA14361D01782500E8B7E9 /* LoadingViewController.swift in Sources */,
 				BF63C2331CFEC56200E1DB51 /* CommonUtils.swift in Sources */,
 				BF63C2221CFEC07700E1DB51 /* MainViewController.swift in Sources */,
 			);
@@ -398,7 +410,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Emad Alghamdi (FRT3M925A7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Emad Alghamdi (FRT3M925A7)";
 				INFOPLIST_FILE = Mawaqeet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -413,7 +425,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Emad Alghamdi (FRT3M925A7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Emad Alghamdi (FRT3M925A7)";
 				INFOPLIST_FILE = Mawaqeet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

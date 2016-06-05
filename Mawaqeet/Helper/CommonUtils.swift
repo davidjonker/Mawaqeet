@@ -75,7 +75,7 @@ extension NSDate {
     // week day
     var date: String {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd"
+        dateFormatter.dateFormat = "d"
         return dateFormatter.stringFromDate(self)
     }
     
