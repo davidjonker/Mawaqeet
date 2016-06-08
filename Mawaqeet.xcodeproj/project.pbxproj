@@ -39,7 +39,6 @@
 /* Begin PBXFileReference section */
 		BF63C1CC1CFEBE2100E1DB51 /* Mawaqeet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mawaqeet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF63C1CF1CFEBE2200E1DB51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BF63C1D41CFEBE2200E1DB51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BF63C1DB1CFEBE2200E1DB51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF63C1EB1CFEBFB400E1DB51 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Light.ttf"; path = "fonts-roboto/Roboto-Light.ttf"; sourceTree = "<group>"; };
 		BF63C1F91CFEBFB500E1DB51 /* Raleway-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Light.ttf"; sourceTree = "<group>"; };
@@ -66,6 +65,7 @@
 		BF6F3B751D01B49C00B4B1AD /* Raleway-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Thin.ttf"; path = "Raleway/Raleway-Thin.ttf"; sourceTree = "<group>"; };
 		BF7BAD341D01AB9900894E59 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		BFDA14351D01782500E8B7E9 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingViewController.swift; path = Controllers/LoadingViewController.swift; sourceTree = "<group>"; };
+		BFFE657C1D06505B0025BC80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +87,7 @@
 				BF63C1CD1CFEBE2100E1DB51 /* Products */,
 			);
 			sourceTree = "<group>";
+			wrapsLines = 1;
 		};
 		BF63C1CD1CFEBE2100E1DB51 /* Products */ = {
 			isa = PBXGroup;
@@ -314,7 +315,7 @@
 		BF63C1D31CFEBE2200E1DB51 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				BF63C1D41CFEBE2200E1DB51 /* Base */,
+				BFFE657C1D06505B0025BC80 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

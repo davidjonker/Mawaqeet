@@ -91,8 +91,8 @@ extension MainViewController {
     func setSunRiseAndSet(){
         let sunRiseTime = self.datePrayerTimes[.Sunrise]
         let sunSetTime = self.datePrayerTimes[.Sunset]
-        self.sunRiseTimeLabel.text = (sunRiseTime?.dateToString())!.uppercaseString
-        self.sunSetTimeLabel.text = (sunSetTime?.dateToString())!.uppercaseString
+        self.sunRiseTimeLabel.text = (sunRiseTime?.dateToString())
+        self.sunSetTimeLabel.text = (sunSetTime?.dateToString())
     }
     
     // Set Default Status for switch.

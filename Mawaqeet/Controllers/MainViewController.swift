@@ -23,7 +23,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     let nightBottomColor = CommonUtils.colorWithHexString("173382")
     let nightToTopColor = CommonUtils.colorWithHexString("314561")
     let nightToBottomColor = CommonUtils.colorWithHexString("192563")
-    var saudiArabiaNames = ["China", "Saudi Arabia", "S.A.", "المملكة العربية السعودية", "حدود المملكة العربية السعودية" ]
+    var saudiArabiaNames = ["Saudi Arabia", "S.A.", "المملكة العربية السعودية", "حدود المملكة العربية السعودية" ]
     var storeFlag = false
     var isInSaudiArabia = false
     var gradient : CAGradientLayer?
@@ -42,6 +42,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var storeClosedLeftXPos:CGFloat = 0.0
     var storeClosedRightXPos:CGFloat = 0.0
     
+    @IBOutlet weak var locationPermissionErrorLabel: UILabel!
     @IBOutlet weak var contactBtn: UIButton!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var loadingView: UIView!
@@ -73,7 +74,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let firstTimeLogin = defaults.boolForKey("firstTimeLogin")
         if !firstTimeLogin {
             defaults.setValue(true, forKey: "firstTimeLogin")
@@ -173,6 +174,9 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tracingLocationDidFailWithError(error: NSError) {
         print("tracing Location Error : \(error.description)")
+        if CLLocationManager.authorizationStatus() == .Denied {
+            self.locationPermissionErrorLabel.hidden = false
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

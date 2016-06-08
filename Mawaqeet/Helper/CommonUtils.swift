@@ -46,50 +46,59 @@ class CommonUtils: NSObject {
 extension NSDate {
     // year
     var year: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "YYY"
-        return dateFormatter.stringFromDate(self)
+        let calendar = NSCalendar.currentCalendar()
+        let comp = calendar.components([.Year, .Month, .Day], fromDate: self)
+        
+        return ("\(comp.year)")
     }
     
     // week day
     var weekDay: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        return dateFormatter.stringFromDate(self)
+        var weeks = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        let calendar = NSCalendar.currentCalendar()
+        let comp = calendar.components([.Year, .Month, .Day, .Weekday], fromDate: self)
+        
+        return weeks[comp.weekday-1]
     }
     
     // month
     var month: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MMM"
-        return dateFormatter.stringFromDate(self)
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        let calendar = NSCalendar.currentCalendar()
+        let comp = calendar.components([.Year, .Month, .Day, .Weekday], fromDate: self)
+        
+        return months[comp.month-1]
     }
     
     // month - Number
     var monthNum: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "M"
-        return dateFormatter.stringFromDate(self)
+        let calendar = NSCalendar.currentCalendar()
+        let comp = calendar.components([.Year, .Month, .Day, .Weekday], fromDate: self)
+        
+        return ("\(comp.month)")
     }
     
     // week day
     var date: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "d"
-        return dateFormatter.stringFromDate(self)
+        let calendar = NSCalendar.currentCalendar()
+        let comp = calendar.components([.Year, .Month, .Day, .Weekday], fromDate: self)
+        
+        return ("\(comp.day)")
     }
     
     // hour
     var hour: String {
         get {
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "HH"
+            let calendar = NSCalendar.currentCalendar()
+            let comp = calendar.components([.Hour, .Minute], fromDate: self)
+            
+            var hour = comp.hour
             
             if self.AMPM == "PM" {
-                return String(stringInterpolationSegment: Int(dateFormatter.stringFromDate(self))! - 12)
-            } else {
-                return dateFormatter.stringFromDate(self)
+                hour = hour - 12
             }
+            
+            return "\(hour)"
         }
     }
     
@@ -103,22 +112,33 @@ extension NSDate {
     }
     
     var minute: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "mm"
-        return dateFormatter.stringFromDate(self)
+//        let dateFormatter = NSDateFormatter()
+//        dateFormatter.dateFormat = "mm"
+        let calendar = NSCalendar.currentCalendar()
+        let comp = calendar.components([.Hour, .Minute], fromDate: self)
+        
+        return ("\(comp.minute)")
     }
     
     var second: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "ss"
-        return dateFormatter.stringFromDate(self)
+//        let dateFormatter = NSDateFormatter()
+//        dateFormatter.dateFormat = "ss"
+//        return dateFormatter.stringFromDate(self)
+        let calendar = NSCalendar.currentCalendar()
+        let comp = calendar.components([.Hour, .Minute, .Second], fromDate: self)
+        
+        return ("\(comp.second)")
     }
     
     // AM & PM
     var AMPM: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "a"
-        return dateFormatter.stringFromDate(self)
+        let calendar = NSCalendar.currentCalendar()
+        let comp = calendar.components([.Hour], fromDate: self)
+        if comp.hour > 12 {
+            return "PM"
+        }
+        
+        return "AM"
     }
     
     // Compare date and returns this type. "03:19:23"
